@@ -196,7 +196,7 @@ if uploaded_zip:
     df_geral = df_esforco.merge(final, on="Assessor", how="outer").fillna(0)
     df_geral["Pontuação Final"] = df_geral["Total Esforço"] + df_geral["Total Finalísticos"]
     df_geral["LEADS + OPP"] = df_geral["Pontuação LEADS SF"] + df_geral["Pontuação OPP SF"]
-    df_geral["Elegível TOP3"] = (df_geral["Pontuação Final"] > 400) & (df_geral["LEADS + OPP"] > 0) & (df_geral["Total Finalísticos"] > 0)
+    df_geral["Elegível TOP3"] = (df_geral["Pontuação Final"] >= 400) & (df_geral["LEADS + OPP"] > 0) & (df_geral["Total Finalísticos"] > 0)
     df_geral = df_geral.sort_values(by="Pontuação Final", ascending=False).reset_index(drop=True)
 
     # --- Filtro de nomes inválidos ---
