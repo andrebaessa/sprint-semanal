@@ -125,32 +125,7 @@ if uploaded_zip:
     st.success("✅ Indicadores de esforço calculados com sucesso!")
 
     # --- Indicadores Finalísticos e Cálculo do Ranking ---
-    #ATIVAÇÕES#
-    df_btg["Data Aporte"] = pd.to_datetime(
-    df_btg["1º Aporte"], errors="coerce", dayfirst=True
-    )
-
-    pl_series = (
-        df_btg["PL Total"].astype(str)
-        .str.replace(".", "", regex=False)   # remove separador de milhar
-        .str.replace(",", ".", regex=False)  # vírgula -> ponto decimal
-    )
-    df_btg["PL Total"] = pd.to_numeric(pl_series, errors="coerce")
-
-    ativ = df_btg[
-        (df_btg["Data Aporte"] >= pd.to_datetime(data_inicio, dayfirst=True)) &
-        (df_btg["Data Aporte"] <= pd.to_datetime(data_fim, dayfirst=True))
-    ].copy()
-
-    def pontos_ativ(pl):
-        if pd.isna(pl): return 0
-        if pl < 300_000: return 0
-        elif pl < 1_000_000: return 100
-        elif pl < 5_000_000: return 200
-        else: return 300
-
-    ativ["Pontos"] = ativ["PL Total"].apply(pontos_ativ)
-    ativacoes = ativ.groupby("Assessor")["Pontos"].sum().reset_index().rename(columns={"Pontos": "Pontuação ATIVAÇÕES"})
+    
 
 
     auc = df_btg.groupby("Assessor")["PL Total"].sum().reset_index()
